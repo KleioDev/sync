@@ -4,7 +4,8 @@
   "description": "Synchronization service to collect data from the TMS database and store in out musa database",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --harmony index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/KleioDev/sync/issues"
   },
-  "homepage": "https://github.com/KleioDev/sync"
+  "homepage": "https://github.com/KleioDev/sync",
+  "dependencies": {
+    "co": "^4.5.2",
+    "co-mssql": "^1.2.0"
+  }
 }
