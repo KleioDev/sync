@@ -19,6 +19,10 @@
   "homepage": "https://github.com/KleioDev/sync",
   "dependencies": {
     "co": "^4.5.2",
-    "co-mssql": "^1.2.0"
+    "co-mssql": "^1.2.0",
+    "excel-parser": "^0.2.2",
+    "excel-stream": "^1.0.9",
+    "koa": "^0.19.1",
+    "thunkify": "^2.1.2"
   }
 }

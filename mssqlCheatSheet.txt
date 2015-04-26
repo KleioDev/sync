@@ -1,3 +1,0 @@
-MSSQL Cheat Sheet
-
-Creating a Login user: CREATE LOGIN kleio WITH PASSWORD = 'kleioDev15' ;
