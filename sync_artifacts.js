@@ -6,23 +6,17 @@ var exec = require('child_process').execSync;
 
 module.exports = function(){
 
-    fs.mkdirSync('data');
-
     try{
-        excelToJson();
+        exec('excel-stream < sheets/artifacts.xlsx > data/artifacts.json');
     } catch(err){
         throw(err);
     }
 
-    var artifacts = require('./data/artifacts.json');
+    var artifacts = fs.readFileSync('data/artifacts.json');
 
-    console.log(artifacts[0]);
-
+    console.log(artifacts);
 
 }
 
-function excelToJson(){
-    exec('excel-stream < sheets/artifacts.xlsx > data/artifacts.json');
-}
 
 
