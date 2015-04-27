@@ -17,7 +17,7 @@ if(checkPaths()){
 
 function checkPaths(){
 
-    var flag;
+    var flag = true;
 
     try{
         fs.lstatSync(PATH_TO_SHEETS);

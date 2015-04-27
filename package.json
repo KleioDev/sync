@@ -23,6 +23,9 @@
     "excel-parser": "^0.2.2",
     "excel-stream": "^1.0.9",
     "koa": "^0.19.1",
+    "pg": "^4.3.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^2.1.0",
     "thunkify": "^2.1.2",
     "xlsjs": "^0.7.5",
     "xlsx": "^0.8.0"

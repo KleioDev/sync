@@ -3,6 +3,8 @@
  */
 var fs = require('fs');
 var exec = require('child_process').execSync;
+var db = require('./models');
+var Artifact = db.sequelize.models['Artifact'];
 
 module.exports = function(){
 
@@ -12,9 +14,12 @@ module.exports = function(){
         throw(err);
     }
 
-    var artifacts = fs.readFileSync('data/artifacts.json');
+    //Get artifacts
+    var artifacts = JSON.parse(fs.readFileSync('data/artifacts.json'));
 
-    console.log(artifacts);
+    artifacts.forEach(function(data){
+       console.log(data.Dated);
+    });
 
 }
 
