@@ -23,6 +23,8 @@
     "excel-parser": "^0.2.2",
     "excel-stream": "^1.0.9",
     "koa": "^0.19.1",
-    "thunkify": "^2.1.2"
+    "thunkify": "^2.1.2",
+    "xlsjs": "^0.7.5",
+    "xlsx": "^0.8.0"
   }
 }

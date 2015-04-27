@@ -1,13 +1,28 @@
 /**
  * Created by cesarcruz on 4/26/15.
  */
-var thunkify = require('thunkify');
-var excel = require('excel-stream');
 var fs = require('fs');
+var exec = require('child_process').execSync;
 
-//Read the xlx file
-fs.createReadStream('/var/kleio/artifacts.xlsx')
-    .pipe(excel()).on('data', function(stream){
-        console.log(stream);
-    });
+module.exports = function(){
+
+    fs.mkdirSync('data');
+
+    try{
+        excelToJson();
+    } catch(err){
+        throw(err);
+    }
+
+    var artifacts = require('./data/artifacts.json');
+
+    console.log(artifacts[0]);
+
+
+}
+
+function excelToJson(){
+    exec('excel-stream < sheets/artifacts.xlsx > data/artifacts.json');
+}
+
 
