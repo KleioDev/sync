@@ -22,10 +22,6 @@ setInterval(function(){
   if(counter == 10){
     //It's time for that sync
     eventEmitter.emit('sync', counter);
-
     counter = 0;
-
-
-
   }
 }, 1000); //This must run every day
