@@ -1,15 +1,17 @@
 module.exports = {
   "development": {
-    "username": process.env.DEVELOPMENT_DB_USERNAME,
-    "password": process.env.DEVELOPMENT_DB_PASSWORD,
-    "database": "kleio_development",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
+      user: process.env.SQLSERVER_DEVELOPMENT_USER,
+      password: process.env.SQLSERVER_DEVELOPMENT_PASSWORD,
+      server: process.env.SQLSERVER_DEVELOPMENT_SERVER,
+      database: process.env.SQLSERVER_DEVELOPMENT_DATABASE,
+      options : {
+        instanceName : process.env.SQLSERVER_DEVELOPMENT_INSTANCE
+      }
   },
   "test": {
-    "username": "kleio",
+    "username": null,
     "password": null,
-    "database": "kleio_test",
+    "database": null,
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

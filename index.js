@@ -1,52 +1,52 @@
-var fs = require('fs');
-var path = require('path');
+var co = require('co');
+var sql = require('co-mssql');
 
-var syncArtifacts = require('./sync_artifacts');
+var request, connection;
 
-//Paths
-var PATH_TO_SHEETS = path.join(__dirname, '/sheets'),
-    PATH_TO_DATA = path.join(__dirname, '/data'),
-    PATH_TO_ARTIFACTS = path.join(__dirname, '/sheets/artifacts.xlsx'),
-    PATH_TO_EXHIBITIONS = path.join(__dirname, '/sheets/exhibitions.xlsx'),
-    PATH_TO_EXHIBITION_JSON = path.join(__dirname, '/data/exhibitions.json');
+co(function * () {
+    connection = new sql.Connection({
+        user: 'kleio',
+        password: 'kleioDev15',
+        server: 'CAPSWS12',
+        database: 'RumArte',
+        options : {
+          instanceName : 'RUMARTE2'
+        }
+    });
 
-if(checkPaths()){
-    syncArtifacts();
+    try {
+
+        yield connection.connect();
+
+
+        request = new sql.Request(connection);
+
+        //Get the last back up date
+        var lastBackUpDate = getPrevBackUpDate();
+
+        result = getObjects();
+
+        console.log(result.length);
+
+    } catch (err) {
+        throw(err);
+    }
+});
+
+function getPrevBackUpDate(){
+  var currDate = Date.now();
+
+  var lastBackUpDate = new Date(currDate - (1000 * 60 * 60 * 24 * 30));
+
+  return lastBackUpDate.toISOString().replace(/T/, ' ').replace(/\..+/, '');
 }
 
+function getObjects(request, previousBackUp){
+  return yield request.query("select * from RumArte.dbo.Objects where EnteredDate > CONVERT(DATETIME, '"+previousBackUp+"');");
 
-function checkPaths(){
+}
 
-    var flag = true;
+function updateObjects(){
 
-    try{
-        fs.lstatSync(PATH_TO_SHEETS);
 
-    } catch(err){
-        if(err.code === 'ENOENT'){
-            fs.mkdirSync('sheets');
-        } else {
-            throw err;
-        }
-
-    }
-
-    try{
-        fs.lstatSync(PATH_TO_DATA);
-    } catch(err){
-        if(err.code === 'ENOENT'){
-            fs.mkdirSync('data')
-        } else {
-            throw err;
-        }
-    }
-
-    try{
-        fs.lstatSync(PATH_TO_ARTIFACTS);
-    } catch(err){
-        console.log('There is no artifacts.xlsx file...');
-        flag = false;
-    }
-
-    return flag;
 }
