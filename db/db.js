@@ -1,10 +1,11 @@
-var co = require('co');
-var sql = require('co-mssql'),
-var sqlConfig = require('../config/config').development;
+var co = require('co'),
+    sql = require('co-mssql'),
+    sqlConfig = require('../config/config').development;
 
 var request, connection;
 
 co(function * () {
+
     connection = new sql.Connection(sqlConfig);
 
     try {
@@ -18,4 +19,7 @@ co(function * () {
     }
 });
 
-module.exports = connection;
+module.exports = {
+  connection : connection,
+  sql : sql
+};
