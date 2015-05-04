@@ -1,10 +1,10 @@
 var co = require('co'),
     sql = require('co-mssql'),
-    sqlConfig = require('../config/config').development;
+    sqlConfig = require('../config/config').msDevelopment;
 
 var request, connection;
 
-co(function * () {
+co(function *(){
 
     connection = new sql.Connection(sqlConfig);
 
@@ -15,6 +15,7 @@ co(function * () {
         request = new sql.Request(connection);
 
     } catch (err) {
+     console.log(err);
         throw(err);
     }
 });

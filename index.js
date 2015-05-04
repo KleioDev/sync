@@ -11,17 +11,17 @@ var request, connection;
 var counter = 0;
 
 eventEmitter.on('sync', function(counter){
-   sync(counter);
+   sync();
 });
 
 setInterval(function(){
   counter = counter + 1;
 
-  console.log(counter);
 
-  if(counter == 10){
+  if(counter == 5){
     //It's time for that sync
     eventEmitter.emit('sync', counter);
+
     counter = 0;
   }
-}, 1000); //This must run every day
+}, 1000); //This must run every day (1000 * 60 * 60 * 24)
