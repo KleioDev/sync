@@ -2,25 +2,27 @@ var co = require('co'),
     sql = require('co-mssql'),
     sqlConfig = require('../config/config').msDevelopment;
 
-var request, connection;
+module.exports = function (){
 
-co(function *(){
+    return co(function *(){
 
-    connection = new sql.Connection(sqlConfig);
+        var connection = new sql.Connection(sqlConfig);
 
-    try {
+        try {
 
-        yield connection.connect();
+            yield connection.connect();
 
-        request = new sql.Request(connection);
+        } catch (err) {
 
-    } catch (err) {
-     console.log(err);
-        throw(err);
-    }
-});
+            console.log(err);
+            throw(err);
+        }
 
-module.exports = {
-  connection : connection,
-  sql : sql
+        return {
+            connection : connection,
+            sql : sql
+        };
+
+    });
+
 };
