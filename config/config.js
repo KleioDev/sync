@@ -7,9 +7,9 @@ module.exports = {
       "dialect": "postgres"
   },
   "test": {
-    "username": null,
-    "password": null,
-    "database": null,
+    "username": process.env.DEVELOPMENT_DB_USERNAME,
+    "password": process.env.DEVELOPMENT_DB_PASSWORD,
+    "database": "kleio_test",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

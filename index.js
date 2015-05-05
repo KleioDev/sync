@@ -5,13 +5,13 @@ var sync = require('./lib');
 
 
 
-var request, connection;
-
 //Create a timer that increments a counter, when the counter reaches 30 days, execute the function, if a call is made, reset the counter
 var counter = 0;
 
+sync();
+
 eventEmitter.on('sync', function(counter){
-   sync();
+   //sync();
 });
 
 setInterval(function(){
