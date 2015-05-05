@@ -19,8 +19,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         description : {
             type : DataTypes.TEXT,
-            allowNull : false,
-            notEmpty: true
+            allowNull : false
         },
         image : {
           type : DataTypes.STRING(1000),
@@ -29,6 +28,9 @@ module.exports = function(sequelize, DataTypes) {
         active : {
             type : DataTypes.BOOLEAN,
             defaultValue : true
+        },
+        tmsID : {
+            type : DataTypes.INTEGER
         },
         createdAt : {
             type : DataTypes.DATE
