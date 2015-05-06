@@ -23,6 +23,8 @@ module.exports = function (){
             sql : sql
         };
 
+    }).catch(function(err){
+        console.error(err);
     });
 
 };

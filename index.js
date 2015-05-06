@@ -2,6 +2,9 @@ require('dotenv').load();
 var events = require('events');
 var eventEmitter = new events.EventEmitter();
 var sync = require('./lib');
+var co = require('co'),
+    exec = require('mz/child_process').exec,
+    fs = require('fs');
 
 /**
  * Kleio-TMS Synchronization schema
@@ -19,24 +22,47 @@ var sync = require('./lib');
  */
 
 
+/**
+ * CONSTRAINTS FOR IMAGE MOVING
+ * 1. Images cannot contain any whitespaces in their names
+ * 2. Images for the same object number will be replaced on the synchronization
+ */
+co(function * (){
 
-//Create a timer that increments a counter, when the counter reaches 30 days, execute the function, if a call is made, reset the counter
-var counter = 0;
+    //Turn off the API server
+    //yield exec('pm2 stop server');
+
+    var oldDir = 'old/192X192/';
+    var newDir = 'new/clues';
+
+    //Sync the image folder
+    yield exec('rsync -a ' +oldDir+ ' ' +newDir+ '');
+
+    //Sync the database
+    //yield sync();
+
+    //Turn API back up
+
+
+}).catch(function(err){
+    console.error(err);
+});
+
 
 sync();
 
-eventEmitter.on('sync', function(counter){
-   //sync();
-});
-
-setInterval(function(){
-  counter = counter + 1;
-
-
-  if(counter == 5){
-    //It's time for that sync
-    eventEmitter.emit('sync', counter);
-
-    counter = 0;
-  }
-}, 1000); //This must run every day (1000 * 60 * 60 * 24)
+//eventEmitter.on('sync', function(counter){
+//   //sync();
+//});
+//
+//setInterval(function(){
+//  counter = counter + 1;
+//
+//
+//  if(counter == 5){
+//    //It's time for that sync
+//    eventEmitter.emit('sync', counter);
+//
+//    counter = 0;
+//  }
+//}, 1000); //This must run every day (1000 * 60 * 60 * 24)
