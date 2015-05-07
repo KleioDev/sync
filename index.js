@@ -32,14 +32,14 @@ co(function * (){
     //Turn off the API server
     //yield exec('pm2 stop server');
 
-    var oldDir = 'old/192X192/';
-    var newDir = 'new/clues';
+    var oldDir = '/Users/cesarcruz/Documents/images/old/192X192/';
+    var newDir = '/Users/cesarcruz/Documents/images/new/clues';
 
     //Sync the image folder
-    yield exec('rsync -a ' +oldDir+ ' ' +newDir+ '');
+    //yield exec('rsync -a ' +oldDir+ ' ' +newDir+ '');
 
     //Sync the database
-    //yield sync();
+    yield sync();
 
     //Turn API back up
 
