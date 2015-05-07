@@ -49,7 +49,7 @@ co(function * (){
 });
 
 
-sync();
+//sync();
 
 //eventEmitter.on('sync', function(counter){
 //   //sync();
