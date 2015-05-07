@@ -79,13 +79,15 @@ setInterval(function(){
 
     counter = 0;
   }
-}, 1000); //This must run every day (1000 * 60 * 60 * 24)
+}, 1000 * 60 * 60 * 24); //This must run every day (1000 * 60 * 60 * 24)
 
 app.use(function*(){
     if(this.url === '/server/reset'){
         counter = 0;
         eventEmitter.emit('sync');
     }
+
+
 });
 
 app.listen(3000);
