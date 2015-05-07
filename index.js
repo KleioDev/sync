@@ -33,7 +33,7 @@ co(function * (){
     //yield exec('pm2 stop server');
 
     var oldDir = process.env.ORIGINAL_PATH;
-    var newDir = proces.env.ARTIFACT_IMAGE_PATH;
+    var newDir = process.env.ARTIFACT_IMAGE_PATH;
 
     //Sync the image folder
     yield exec('rsync -a ' +oldDir+ ' ' +newDir+ '');
