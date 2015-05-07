@@ -1,11 +1,12 @@
 require('dotenv').load();
 var events = require('events');
 var eventEmitter = new events.EventEmitter();
-var sync = require('./lib');
+var sync = require('./lib').sync;
 var co = require('co'),
     exec = require('mz/child_process').exec,
     koa = require('koa'),
-    app = koa();
+    app = koa(),
+    musaDB = require('./models').sequelize;
 /**
  * Kleio-TMS Synchronization schema
  * CONSTRAINTS:
@@ -31,7 +32,6 @@ var co = require('co'),
 var counter = 0;
 
 eventEmitter.on('sync', function(counter){
-console.log('ere');
     co(function * (){
 
         //Turn off the API server
@@ -39,12 +39,26 @@ console.log('ere');
 
         var oldDir = process.env.ORIGINAL_PATH;
         var newDir = process.env.ARTIFACT_IMAGE_PATH;
+        var Synchronization = musaDB.models.Synchronization;
 
         //Sync the image folder
         yield exec('rsync -a ' +oldDir+ ' ' +newDir+ '');
 
+        //Get last sync date
+        var lastUpdate = yield Synchronization.findAll({
+            order : '"lastSynchronization" DESC',
+            limit : 1
+        });
+
         //Sync the database
-        yield sync();
+        yield sync(lastUpdate.lastSynchronization);
+
+        //Log the synchronization
+        yield musaDB.transaction(function(t) {
+            return Synchronization.create({
+                lastSynchronization: Date.now()
+            }, { transaction : t});
+        });
 
         //Turn API back up
 
