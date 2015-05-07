@@ -32,11 +32,11 @@ co(function * (){
     //Turn off the API server
     //yield exec('pm2 stop server');
 
-    var oldDir = '/Users/cesarcruz/Documents/images/old/192X192/';
-    var newDir = '/Users/cesarcruz/Documents/images/new/clues';
+    var oldDir = process.env.ORIGINAL_PATH;
+    var newDir = proces.env.ARTIFACT_IMAGE_PATH;
 
     //Sync the image folder
-    //yield exec('rsync -a ' +oldDir+ ' ' +newDir+ '');
+    yield exec('rsync -a ' +oldDir+ ' ' +newDir+ '');
 
     //Sync the database
     yield sync();
@@ -48,8 +48,6 @@ co(function * (){
     console.error(err);
 });
 
-
-//sync();
 
 //eventEmitter.on('sync', function(counter){
 //   //sync();
