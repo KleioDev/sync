@@ -4,8 +4,8 @@ var eventEmitter = new events.EventEmitter();
 var sync = require('./lib');
 var co = require('co'),
     exec = require('mz/child_process').exec,
-    fs = require('fs');
-
+    koa = require('koa'),
+    app = koa();
 /**
  * Kleio-TMS Synchronization schema
  * CONSTRAINTS:
@@ -27,40 +27,52 @@ var co = require('co'),
  * 1. Images cannot contain any whitespaces in their names
  * 2. Images for the same object number will be replaced on the synchronization
  */
-co(function * (){
 
-    //Turn off the API server
-    //yield exec('pm2 stop server');
+var counter = 0;
 
-    var oldDir = process.env.ORIGINAL_PATH;
-    var newDir = process.env.ARTIFACT_IMAGE_PATH;
+eventEmitter.on('sync', function(counter){
+console.log('ere');
+    co(function * (){
 
-    //Sync the image folder
-    yield exec('rsync -a ' +oldDir+ ' ' +newDir+ '');
+        //Turn off the API server
+        //yield exec('pm2 stop server');
 
-    //Sync the database
-    yield sync();
+        var oldDir = process.env.ORIGINAL_PATH;
+        var newDir = process.env.ARTIFACT_IMAGE_PATH;
 
-    //Turn API back up
+        //Sync the image folder
+        yield exec('rsync -a ' +oldDir+ ' ' +newDir+ '');
+
+        //Sync the database
+        yield sync();
+
+        //Turn API back up
 
 
-}).catch(function(err){
-    console.error(err);
+    }).catch(function(err){
+        console.error(err);
+    });
+
 });
 
+setInterval(function(){
+  counter = counter + 1;
 
-//eventEmitter.on('sync', function(counter){
-//   //sync();
-//});
-//
-//setInterval(function(){
-//  counter = counter + 1;
-//
-//
-//  if(counter == 5){
-//    //It's time for that sync
-//    eventEmitter.emit('sync', counter);
-//
-//    counter = 0;
-//  }
-//}, 1000); //This must run every day (1000 * 60 * 60 * 24)
+
+  if(counter == 30){
+    //It's time for that sync
+   // eventEmitter.emit('sync', counter);
+
+    counter = 0;
+  }
+}, 1000); //This must run every day (1000 * 60 * 60 * 24)
+
+app.use(function*(){
+    if(this.url === '/server/reset'){
+        counter = 0;
+        eventEmitter.emit('sync');
+    }
+});
+
+app.listen(3000);
+console.log("Server listening on port 3000");
