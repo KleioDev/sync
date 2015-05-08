@@ -11,7 +11,7 @@ var co = require('co'),
  * Kleio-TMS Synchronization schema
  * CONSTRAINTS:
  * 1. Objects in the TMS Database system are analogous to Artifacts in the Kleio system
- * 2. Artifacts cannot by a Kleio Administrator using the Kleio Admininstrator Panel
+ * 2. Artifacts cannot be added by a Kleio Administrator using the Kleio Admininstrator Panel
  * 3. Objects and Artifacts will be compared given their ObjectNumber, we will assume that this ObjectNumber is unique per TMS Object
  *
  * HOW IT WORKS
